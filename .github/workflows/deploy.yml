@@ -25,13 +25,27 @@ jobs:
       - name: Publish
         run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish --self-contained true --runtime win-x86
 
-      - name: Fix web.config BOM
+      - name: Rewrite web.config for MonsterASP
         shell: pwsh
         run: |
-          $path = "./publish/web.config"
-          $content = [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
-          $utf8NoBom = New-Object System.Text.UTF8Encoding $false
-          [System.IO.File]::WriteAllText($path, $content, $utf8NoBom)
+          $webConfig = @"
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <location path="." inheritInChildApplications="false">
+              <system.webServer>
+                <handlers>
+                  <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
+                </handlers>
+                <aspNetCore processPath=".\Shefaa.Api.exe" arguments="" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" hostingModel="outOfProcess">
+                  <environmentVariables>
+                    <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Production" />
+                  </environmentVariables>
+                </aspNetCore>
+              </system.webServer>
+            </location>
+          </configuration>
+          "@
+          [System.IO.File]::WriteAllText("./publish/web.config", $webConfig, [System.Text.UTF8Encoding]::new($false))
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
