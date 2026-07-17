@@ -22,10 +22,10 @@ jobs:
       - name: Build
         run: dotnet build Shefaa.slnx --configuration Release --no-restore
 
-      - name: Publish (framework-dependent)
-        run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish
+      - name: Publish (framework-dependent, win-x86)
+        run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish --runtime win-x86
 
-      - name: Rewrite web.config (no BOM)
+      - name: Rewrite web.config (no BOM, InProcess)
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path "./publish/logs" | Out-Null
@@ -37,10 +37,9 @@ jobs:
                 <handlers>
                   <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
                 </handlers>
-                <aspNetCore processPath="dotnet" arguments=".\Shefaa.Api.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout.txt" hostingModel="outOfProcess">
+                <aspNetCore processPath="dotnet" arguments=".\Shefaa.Api.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout.txt" hostingModel="inprocess">
                   <environmentVariables>
                     <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Production" />
-                    <environmentVariable name="ASPNETCORE_URLS" value="http://localhost:5000" />
                   </environmentVariables>
                 </aspNetCore>
               </system.webServer>
