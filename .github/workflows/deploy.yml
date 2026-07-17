@@ -23,7 +23,7 @@ jobs:
         run: dotnet build Shefaa.slnx --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish -r win-x86 --self-contained false
+        run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish --self-contained true --runtime win-x86
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
