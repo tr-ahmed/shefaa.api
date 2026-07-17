@@ -33,5 +33,5 @@ jobs:
           password: 2g-Q+Zi96j%R
           port: 21
           local-dir: ./publish/
-          server-dir: /wwwroot
+          server-dir: /wwwroot/
           dangerous-clean-slate: false
