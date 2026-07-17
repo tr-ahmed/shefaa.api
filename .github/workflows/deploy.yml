@@ -25,12 +25,13 @@ jobs:
       - name: Publish
         run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish
 
-      - name: Deploy to MonsterASP.NET via WebDeploy
-        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.7.0
         with:
-          website-name: site80062
-          server-computer-name: https://site80062.siteasp.net:8172
-          server-username: site80062
-          server-password: X_q9#8Wos?4A
-          source-path: publish
-          target-path: wwwroot
+          server: site80062.siteasp.net
+          username: site80062
+          password: 2g-Q+Zi96j%R
+          port: 21
+          local-dir: ./publish
+          server-dir: /wwwroot
+          dangerous-clean-skip: true
