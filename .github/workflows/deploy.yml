@@ -22,10 +22,10 @@ jobs:
       - name: Build
         run: dotnet build Shefaa.slnx --configuration Release --no-restore
 
-      - name: Publish
-        run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish --self-contained true --runtime win-x86
+      - name: Publish (framework-dependent)
+        run: dotnet publish src/Shefaa.Api/Shefaa.Api.csproj --configuration Release --output ./publish
 
-      - name: Rewrite web.config for MonsterASP
+      - name: Rewrite web.config (no BOM)
         shell: pwsh
         run: |
           $webConfig = @"
@@ -36,7 +36,7 @@ jobs:
                 <handlers>
                   <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
                 </handlers>
-                <aspNetCore processPath=".\Shefaa.Api.exe" arguments="" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" hostingModel="outOfProcess">
+                <aspNetCore processPath="dotnet" arguments=".\Shefaa.Api.dll" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" hostingModel="inprocess">
                   <environmentVariables>
                     <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Production" />
                   </environmentVariables>
