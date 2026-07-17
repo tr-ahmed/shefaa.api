@@ -29,7 +29,7 @@ jobs:
         uses: rasmusbuchholdt/simply-web-deploy@2.1.0
         with:
           website-name: site80062
-          server-computer-name: site80062.siteasp.net:8172
+          server-computer-name: https://site80062.siteasp.net:8172
           server-username: site80062
           server-password: X_q9#8Wos?4A
           source-path: ./publish
