@@ -28,6 +28,7 @@ jobs:
       - name: Rewrite web.config (no BOM)
         shell: pwsh
         run: |
+          New-Item -ItemType Directory -Force -Path "./publish/logs" | Out-Null
           $webConfig = @"
           <?xml version="1.0" encoding="utf-8"?>
           <configuration>
@@ -36,9 +37,10 @@ jobs:
                 <handlers>
                   <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
                 </handlers>
-                <aspNetCore processPath="dotnet" arguments=".\Shefaa.Api.dll" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" hostingModel="inprocess">
+                <aspNetCore processPath="dotnet" arguments=".\Shefaa.Api.dll" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout.txt" hostingModel="outOfProcess">
                   <environmentVariables>
                     <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Production" />
+                    <environmentVariable name="ASPNETCORE_URLS" value="http://localhost:5000" />
                   </environmentVariables>
                 </aspNetCore>
               </system.webServer>
