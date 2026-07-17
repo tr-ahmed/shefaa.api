@@ -28,9 +28,9 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          server: site80062.siteasp.net
-          username: site80062
-          password: 2g-Q+Zi96j%R
+          server: site80073.siteasp.net
+          username: site80073
+          password: 6Wd!f8=S9_Po
           port: 21
           local-dir: ./publish/
           server-dir: /
