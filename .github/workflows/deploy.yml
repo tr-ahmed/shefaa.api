@@ -32,6 +32,6 @@ jobs:
           username: site80062
           password: 2g-Q+Zi96j%R
           port: 21
-          local-dir: ./publish
+          local-dir: ./publish/
           server-dir: /wwwroot
-          dangerous-clean-skip: true
+          dangerous-clean-slate: false
